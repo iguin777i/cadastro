@@ -3,7 +3,9 @@ package com.example.cadastro.service;
 import com.example.cadastro.model.Jogo;
 import com.example.cadastro.repository.JogoRepository;
 import org.springframework.stereotype.Service;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +27,16 @@ public class JogoService {
         }
     }
 
+    public Optional<Jogo> buscarJogoPorId(Long id) {
+        try {
+            logger.info("Buscando jogo com ID: {}", id);
+            return jogoRepository.findById(id);
+        } catch (Exception e) {
+            logger.error("Erro ao buscar jogo com ID {}: {}", id, e.getMessage(), e);
+            throw e;
+        }
+    }
+
     public Jogo criarJogo(Jogo jogo) {
         try {
             logger.info("Tentando criar jogo: {}", jogo);
@@ -38,6 +50,9 @@ public class JogoService {
     public Jogo atualizarJogo(Long id, Jogo jogo) {
         try {
             logger.info("Tentando atualizar jogo com ID {}: {}", id, jogo);
+            if (!jogoRepository.existsById(id)) {
+                throw new EntityNotFoundException("Jogo não encontrado com ID: " + id);
+            }
             jogo.setId(id);
             return jogoRepository.save(jogo);
         } catch (Exception e) {
@@ -49,6 +64,9 @@ public class JogoService {
     public void deletarJogo(Long id) {
         try {
             logger.info("Tentando deletar jogo com ID: {}", id);
+            if (!jogoRepository.existsById(id)) {
+                throw new EntityNotFoundException("Jogo não encontrado com ID: " + id);
+            }
             jogoRepository.deleteById(id);
         } catch (Exception e) {
             logger.error("Erro ao deletar jogo: {}", e.getMessage(), e);
