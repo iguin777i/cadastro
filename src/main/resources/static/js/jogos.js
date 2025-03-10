@@ -42,17 +42,21 @@ async function carregarJogos() {
 
 // Função para salvar um jogo (criar ou atualizar)
 async function salvarJogo() {
-  const jogoId = document.getElementById("jogoId").value;
-  const jogo = {
-    nome: document.getElementById("nome").value,
-    descricao: document.getElementById("descricao").value,
-    genero: document.getElementById("genero").value,
-    preco: parseFloat(document.getElementById("preco").value),
-  };
-
   try {
+    const jogoId = document.getElementById("jogoId").value;
+    const jogo = {
+      nome: document.getElementById("nome").value,
+      descricao: document.getElementById("descricao").value,
+      genero: document.getElementById("genero").value,
+      preco: parseFloat(document.getElementById("preco").value) || 0
+    };
+
+    console.log('Salvando jogo:', editando ? 'Edição' : 'Novo', jogo);
+
     const url = editando ? `${API_URL}/${jogoId}` : API_URL;
     const method = editando ? "PUT" : "POST";
+
+    console.log('Fazendo requisição para:', url, 'método:', method);
 
     const response = await fetch(url, {
       method: method,
@@ -62,42 +66,59 @@ async function salvarJogo() {
       body: JSON.stringify(jogo),
     });
 
-    if (response.ok) {
-      const modal = bootstrap.Modal.getInstance(
-        document.getElementById("jogoModal")
-      );
-      modal.hide();
-      carregarJogos();
-      limparFormulario();
-    } else {
-      const error = await response.json();
-      alert(error.message || "Erro ao salvar o jogo!");
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || `Erro ${response.status} ao salvar o jogo`);
     }
+
+    console.log('Jogo salvo com sucesso');
+
+    const modal = bootstrap.Modal.getInstance(document.getElementById("jogoModal"));
+    modal.hide();
+    await carregarJogos();
+    limparFormulario();
   } catch (error) {
-    console.error("Erro ao salvar jogo:", error);
-    alert("Erro ao salvar o jogo!");
+    console.error("Erro detalhado ao salvar jogo:", error);
+    alert(`Erro ao salvar o jogo: ${error.message}`);
   }
 }
 
 // Função para editar um jogo
 async function editarJogo(id) {
   try {
+    console.log('Iniciando edição do jogo:', id);
     const response = await fetch(`${API_URL}/${id}`);
+    
+    if (!response.ok) {
+      throw new Error(`Erro ao buscar jogo: ${response.status}`);
+    }
+    
     const jogo = await response.json();
+    console.log('Dados do jogo recebidos:', jogo);
 
+    if (!jogo) {
+      throw new Error('Jogo não encontrado');
+    }
+
+    // Preencher o formulário
     document.getElementById("jogoId").value = jogo.id;
-    document.getElementById("nome").value = jogo.nome;
-    document.getElementById("descricao").value = jogo.descricao;
-    document.getElementById("genero").value = jogo.genero || "";
-    document.getElementById("preco").value = jogo.preco || "";
+    document.getElementById("nome").value = jogo.nome || '';
+    document.getElementById("descricao").value = jogo.descricao || '';
+    document.getElementById("genero").value = jogo.genero || '';
+    document.getElementById("preco").value = jogo.preco || '0';
 
     editando = true;
     document.getElementById("modalTitle").textContent = "Editar Jogo";
-    const modal = new bootstrap.Modal(document.getElementById("jogoModal"));
+    
+    // Abrir o modal
+    const modalElement = document.getElementById("jogoModal");
+    const modal = new bootstrap.Modal(modalElement);
     modal.show();
+    
+    console.log('Modal de edição aberto com sucesso');
   } catch (error) {
-    console.error("Erro ao carregar jogo para edição:", error);
-    alert("Erro ao carregar dados do jogo!");
+    console.error("Erro detalhado ao editar jogo:", error);
+    alert(`Erro ao carregar dados do jogo: ${error.message}`);
   }
 }
 
