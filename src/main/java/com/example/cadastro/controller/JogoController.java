@@ -25,6 +25,13 @@ public class JogoController {
         return ResponseEntity.ok(jogoService.listarJogos());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Jogo> buscarJogoPorId(@PathVariable Long id) {
+        return jogoService.buscarJogoPorId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @PostMapping
     public ResponseEntity<Jogo> criarJogo(@Valid @RequestBody Jogo jogo) {
         return ResponseEntity.ok(jogoService.criarJogo(jogo));
