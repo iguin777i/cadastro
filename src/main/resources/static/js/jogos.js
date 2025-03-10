@@ -1,5 +1,5 @@
 // URL base da API
-const API_URL = "http://localhost:8080/jogos";
+const API_URL = "https://cadastro-l1yw.onrender.com/jogos";
 
 // Variável para controlar se estamos editando ou criando
 let editando = false;
