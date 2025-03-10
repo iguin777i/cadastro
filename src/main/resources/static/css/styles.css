@@ -1,0 +1,103 @@
+/* Estilos gerais */
+body {
+  background-color: #f8f9fa;
+}
+
+/* Estilos da navbar */
+.navbar {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+  font-weight: bold;
+}
+
+/* Estilos do container principal */
+.container {
+  margin-top: 2rem;
+}
+
+/* Estilos dos cards na página inicial */
+.card {
+  transition: transform 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+  color: #0d6efd;
+  font-weight: bold;
+}
+
+/* Estilos das tabelas */
+.table {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.table thead th {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+}
+
+/* Estilos dos botões */
+.btn {
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+}
+
+/* Estilos do modal */
+.modal-content {
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* Estilos dos formulários */
+.form-control {
+  border-radius: 4px;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .container {
+    margin-top: 1rem;
+  }
+
+  .table-responsive {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Animações */
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
