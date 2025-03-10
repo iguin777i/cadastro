@@ -1,5 +1,5 @@
 // URL base da API
-const API_URL = process.env.REACT_APP_API_URL || "https://cadastro-api.onrender.com/usuarios";
+const API_URL = "https://cadastro-l1yw.onrender.com/usuarios";
 
 // Variável para controlar se estamos editando ou criando
 let editando = false;
