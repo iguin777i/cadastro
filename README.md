@@ -1,10 +1,6 @@
 <!--- # "Can be a image or a gift from the project pages" -->
 
-<p align="center">
-  <img src="https://igor-me.netlify.app/assets/img/fsw/capa.jpg" alt="Project Name">
-</p>
-
-# Full Stack Week
+# 
 
 Projeto desenvolvido durante a FSW, com o objetivo de desenvolver um tokem de atendimento semelhante ao do Mc Donald's
 
